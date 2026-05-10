@@ -45,6 +45,7 @@ Decision = Literal["allow", "ask", "deny"]
 class Action(BaseModel):
     command: str
     cwd: str
+    session_id: Optional[str] = None
     diff: Optional[str] = None
     source: Optional[str] = None  # "user", "RECENT_NOTES.md", etc.
 
@@ -55,6 +56,8 @@ class CheckResult(BaseModel):
     dry_run: Optional[str] = None
     matched_rule: Optional[str] = None
     confidence: float = 0.0
+    model_name: Optional[str] = None
+    escalated_from: Optional[str] = None
 
 
 class FailureAnalysis(BaseModel):

@@ -5,6 +5,7 @@ import { SessionsPage } from "./pages/SessionsPage";
 import { SessionDetailPage } from "./pages/SessionDetailPage";
 import { MemoriesPage } from "./pages/MemoriesPage";
 import { AssumptionsPage } from "./pages/AssumptionsPage";
+import { SafetyPage } from "./pages/SafetyPage";
 import { CliPage } from "./pages/CliPage";
 
 export default function App() {
@@ -17,6 +18,7 @@ export default function App() {
           <Route path="/sessions/:id" element={<SessionDetailPage />} />
           <Route path="/memories" element={<MemoriesPage />} />
           <Route path="/assumptions" element={<AssumptionsPage />} />
+          <Route path="/safety" element={<SafetyPage />} />
           <Route path="/cli" element={<CliPage />} />
           <Route path="*" element={<Navigate to="/" replace />} />
         </Route>

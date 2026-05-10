@@ -5,17 +5,18 @@ type Variant = "primary" | "secondary" | "ghost" | "outline";
 type Size = "sm" | "md" | "lg";
 
 const base =
-  "inline-flex items-center justify-center gap-2 font-medium transition-all duration-200 rounded-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--color-acid)]/40 disabled:opacity-50 disabled:pointer-events-none whitespace-nowrap";
+  "inline-flex items-center justify-center gap-2 font-medium transition-all duration-200 rounded-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--color-violet-glow)]/40 disabled:opacity-50 disabled:pointer-events-none whitespace-nowrap";
 
+/* Lighter, single-layer shadows replace the old multi-layer acid glow. */
 const variants: Record<Variant, string> = {
   primary:
-    "bg-[color:var(--color-acid)] text-black hover:brightness-110 active:scale-[0.98] shadow-[0_8px_30px_-8px_rgba(214,255,60,0.55)] hover:shadow-[0_12px_40px_-8px_rgba(214,255,60,0.65)]",
+    "bg-gradient-to-b from-[#c47bff] to-[#7e14ff] text-white hover:brightness-110 active:scale-[0.98] shadow-[0_8px_22px_-12px_rgba(126,20,255,0.55)]",
   secondary:
-    "bg-white/10 text-white hover:bg-white/15 border border-white/10",
+    "bg-white/[0.06] text-white hover:bg-white/10 border border-white/10",
   ghost:
-    "text-white/70 hover:text-white hover:bg-white/5",
+    "text-white/70 hover:text-white hover:bg-white/[0.04]",
   outline:
-    "border border-white/15 text-white hover:bg-white/5 hover:border-white/25",
+    "border border-white/15 text-white hover:bg-white/[0.04] hover:border-[color:var(--color-violet-glow)]/40",
 };
 
 const sizes: Record<Size, string> = {
