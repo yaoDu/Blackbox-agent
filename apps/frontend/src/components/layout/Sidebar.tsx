@@ -7,6 +7,7 @@ import {
   Terminal,
   ChevronRight,
   Sparkles,
+  ShieldCheck,
 } from "lucide-react";
 import { motion } from "motion/react";
 import { Logo } from "./Logo";
@@ -14,11 +15,12 @@ import { sponsorMeta } from "../../lib/mockData";
 import { cn } from "../../lib/cn";
 
 const items = [
-  { to: "/", label: "Overview", icon: Home, end: true },
-  { to: "/sessions", label: "Sessions", icon: Activity },
-  { to: "/memories", label: "Memory cards", icon: Brain },
+  { to: "/",            label: "Overview",         icon: Home,         end: true },
+  { to: "/sessions",    label: "Sessions",         icon: Activity },
+  { to: "/safety",      label: "Contract",         icon: ShieldCheck },
+  { to: "/memories",    label: "Memory cards",     icon: Brain },
   { to: "/assumptions", label: "Assumption shifts", icon: GitCompare },
-  { to: "/cli", label: "CLI", icon: Terminal },
+  { to: "/cli",         label: "CLI",              icon: Terminal },
 ];
 
 export function Sidebar({ onNavigate }: { onNavigate?: () => void }) {
@@ -49,14 +51,16 @@ export function Sidebar({ onNavigate }: { onNavigate?: () => void }) {
                 {isActive && (
                   <motion.span
                     layoutId="sidebar-active"
-                    className="absolute left-0 top-1/2 h-5 w-[3px] -translate-y-1/2 rounded-r-full bg-[color:var(--color-acid)]"
+                    className="absolute left-0 top-1/2 h-5 w-[3px] -translate-y-1/2 rounded-r-full bg-[color:var(--color-violet-glow)]"
                     transition={{ type: "spring", stiffness: 320, damping: 28 }}
                   />
                 )}
                 <item.icon
                   className={cn(
                     "h-4 w-4 transition-colors",
-                    isActive ? "text-[color:var(--color-acid)]" : "text-white/45 group-hover:text-white/70"
+                    isActive
+                      ? "text-[color:var(--color-violet-glow)]"
+                      : "text-white/45 group-hover:text-white/70"
                   )}
                 />
                 {item.label}
@@ -75,7 +79,7 @@ export function Sidebar({ onNavigate }: { onNavigate?: () => void }) {
       </nav>
 
       <div className="mt-auto space-y-3 px-1">
-        <div className="rounded-xl border border-white/5 bg-white/[0.02] p-3">
+        <div className="rounded-xl border border-white/[0.06] bg-white/[0.02] p-3">
           <div className="mb-2 flex items-center gap-1.5 text-[10.5px] font-medium uppercase tracking-[0.18em] text-[color:var(--color-dim)]">
             <Sparkles className="h-3 w-3" />
             Powered by
@@ -91,7 +95,7 @@ export function Sidebar({ onNavigate }: { onNavigate?: () => void }) {
                   <div className="flex items-center gap-2">
                     <span
                       className="h-1.5 w-1.5 rounded-full"
-                      style={{ background: meta.color, boxShadow: `0 0 8px ${meta.color}` }}
+                      style={{ background: meta.color }}
                     />
                     <span className="font-medium text-white/85">{tag}</span>
                   </div>
@@ -99,6 +103,28 @@ export function Sidebar({ onNavigate }: { onNavigate?: () => void }) {
                 </div>
               );
             })}
+          </div>
+        </div>
+
+        {/* Community / docs row using the icons sprite — keeps the icons "in use" */}
+        <div className="flex items-center justify-between rounded-xl border border-white/[0.06] bg-white/[0.02] px-3 py-2 text-[10.5px] text-[color:var(--color-dim)]">
+          <span className="uppercase tracking-[0.18em]">community</span>
+          <div className="flex items-center gap-2 text-white/55">
+            {[
+              { id: "github-icon", title: "github" },
+              { id: "discord-icon", title: "discord" },
+              { id: "x-icon", title: "x" },
+            ].map((g) => (
+              <button
+                key={g.id}
+                title={g.title}
+                className="grid h-6 w-6 place-items-center rounded-md hover:bg-white/[0.05] hover:text-white"
+              >
+                <svg width="13" height="13" aria-hidden>
+                  <use href={`/icons.svg#${g.id}`} />
+                </svg>
+              </button>
+            ))}
           </div>
         </div>
 

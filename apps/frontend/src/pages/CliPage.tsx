@@ -48,8 +48,8 @@ export function CliPage() {
         {/* Install */}
         <div className="mt-8 grid gap-3 md:grid-cols-2">
           {[
-            { label: "Install", cmd: "npm i -g @blackbox/cli" },
-            { label: "Initialize in your repo", cmd: "blackbox init" },
+            { label: "Install", cmd: "uv pip install witsmith" },
+            { label: "Initialize in your repo", cmd: "witsmith init" },
           ].map((x, idx) => (
             <motion.div
               key={x.label}
@@ -179,7 +179,7 @@ export function CliPage() {
                 </div>
                 <ul className="space-y-1.5">
                   {[
-                    ["BLACKBOX_DB", "path to local sqlite (default ~/.blackbox/db)"],
+                    ["WITSMITH_DB", "path to local sqlite (default ~/.witsmith/db)"],
                     ["CLOD_API_KEY", "memory generation"],
                     ["NIA_API_KEY", "indexing & retrieval"],
                     ["GREPTILE_API_KEY", "diff review"],

@@ -1,23 +1,27 @@
 @import "tailwindcss";
 
 @theme {
-  --color-bg: #0a0a0f;
-  --color-bg-soft: #101018;
-  --color-surface: #14141d;
-  --color-surface-2: #1a1a26;
-  --color-border: #23232f;
-  --color-border-soft: #1c1c27;
-  --color-text: #e7e7ec;
-  --color-muted: #8a8a99;
-  --color-dim: #5d5d6c;
+  /* Surfaces — slight purple cast, aligned with icon dark #08060d */
+  --color-bg: #0a0712;
+  --color-bg-soft: #110c1d;
+  --color-surface: #161029;
+  --color-surface-2: #1c1535;
+  --color-border: #251e3e;
+  --color-border-soft: #1a1530;
+  --color-text: #ece8f5;
+  --color-muted: #948ea8;
+  --color-dim: #6a6383;
 
-  --color-acid: #d6ff3c;
-  --color-acid-soft: #c0eb1e;
-  --color-acid-deep: #7cf000;
+  /* PRIMARY accents — pulled directly from public/icons.svg + favicon.svg
+     ( #aa3bff, #863bff, #7e14ff, #ede6ff, #47bfff )
+     Variable names preserved so existing pages inherit automatically. */
+  --color-acid: #c47bff;       /* mid lavender-purple — primary accent */
+  --color-acid-soft: #ede6ff;  /* soft lavender highlight */
+  --color-acid-deep: #7e14ff;  /* deep violet for shadows / glows */
 
-  --color-electric: #6ea8ff;
-  --color-violet-glow: #b289ff;
-  --color-coral: #ff7a7a;
+  --color-electric: #47bfff;   /* cyan accent (icon highlight) */
+  --color-violet-glow: #aa3bff;
+  --color-coral: #ff8aa3;
   --color-amber: #ffb547;
 
   --color-success: #5ddf9b;
@@ -49,11 +53,10 @@
   }
 
   ::selection {
-    background: rgba(214, 255, 60, 0.35);
+    background: rgba(196, 123, 255, 0.32);
     color: #fff;
   }
 
-  /* Scrollbar */
   *::-webkit-scrollbar {
     width: 10px;
     height: 10px;
@@ -62,12 +65,12 @@
     background: transparent;
   }
   *::-webkit-scrollbar-thumb {
-    background: #1f1f2c;
+    background: #221b3a;
     border-radius: 99px;
     border: 2px solid var(--color-bg);
   }
   *::-webkit-scrollbar-thumb:hover {
-    background: #2c2c3d;
+    background: #2e2550;
   }
 }
 
@@ -90,24 +93,24 @@
     inset: 0;
     pointer-events: none;
     z-index: 1;
-    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 0.18 0'/></filter><rect width='100%' height='100%' filter='url(%23n)' opacity='0.4'/></svg>");
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 0.12 0'/></filter><rect width='100%' height='100%' filter='url(%23n)' opacity='0.3'/></svg>");
     mix-blend-mode: overlay;
-    opacity: 0.35;
+    opacity: 0.25;
   }
 
   .dot-grid {
     background-image: radial-gradient(
-      rgba(255, 255, 255, 0.07) 1px,
+      rgba(196, 123, 255, 0.08) 1px,
       transparent 1px
     );
     background-size: 22px 22px;
   }
 
+  /* Reduced glow intensity */
   .glow-acid {
     box-shadow:
-      0 0 0 1px rgba(214, 255, 60, 0.35),
-      0 0 24px rgba(214, 255, 60, 0.18),
-      0 0 80px rgba(214, 255, 60, 0.18);
+      0 0 0 1px rgba(196, 123, 255, 0.28),
+      0 0 18px rgba(170, 59, 255, 0.14);
   }
 
   .text-balance {
@@ -115,7 +118,7 @@
   }
 
   .gradient-text-acid {
-    background: linear-gradient(180deg, #f5ffb8 0%, #d6ff3c 60%, #8ee300 100%);
+    background: linear-gradient(180deg, #ede6ff 0%, #c47bff 55%, #7e14ff 100%);
     -webkit-background-clip: text;
     background-clip: text;
     color: transparent;
@@ -148,11 +151,38 @@
   .scanlines {
     background-image: repeating-linear-gradient(
       0deg,
-      rgba(255, 255, 255, 0.03) 0px,
-      rgba(255, 255, 255, 0.03) 1px,
+      rgba(255, 255, 255, 0.025) 0px,
+      rgba(255, 255, 255, 0.025) 1px,
       transparent 1px,
       transparent 3px
     );
+  }
+
+  /* Soft elevation — replaces heavy multi-layer shadows everywhere */
+  .elev-1 {
+    box-shadow:
+      0 1px 0 rgba(255, 255, 255, 0.03) inset,
+      0 12px 32px -22px rgba(0, 0, 0, 0.7);
+  }
+  .elev-2 {
+    box-shadow:
+      0 1px 0 rgba(255, 255, 255, 0.04) inset,
+      0 18px 50px -28px rgba(126, 20, 255, 0.35),
+      0 8px 20px -16px rgba(0, 0, 0, 0.5);
+  }
+
+  /* Floating utility — for icons & glyphs the user wants to "float" */
+  .floaty {
+    animation: floaty 7s ease-in-out infinite;
+    will-change: transform;
+  }
+  .floaty-slow {
+    animation: floaty 11s ease-in-out infinite;
+    will-change: transform;
+  }
+  .floaty-fast {
+    animation: floaty 5s ease-in-out infinite;
+    will-change: transform;
   }
 }
 
@@ -171,7 +201,7 @@
 }
 
 @keyframes pulse-ring {
-  0% { transform: scale(0.7); opacity: 0.7; }
+  0% { transform: scale(0.7); opacity: 0.65; }
   80% { transform: scale(1.6); opacity: 0; }
   100% { opacity: 0; }
 }
@@ -181,16 +211,16 @@
   inset: 0;
   border-radius: inherit;
   border: 1px solid currentColor;
-  animation: pulse-ring 2.4s ease-out infinite;
+  animation: pulse-ring 2.6s ease-out infinite;
 }
 
 @keyframes orb {
   0%   { transform: translate3d(0,0,0) scale(1); }
-  50%  { transform: translate3d(20px,-30px,0) scale(1.1); }
+  50%  { transform: translate3d(14px,-22px,0) scale(1.06); }
   100% { transform: translate3d(0,0,0) scale(1); }
 }
 .orb-anim {
-  animation: orb 16s ease-in-out infinite;
+  animation: orb 18s ease-in-out infinite;
 }
 
 @keyframes shimmer {
@@ -201,7 +231,7 @@
   background: linear-gradient(
     90deg,
     transparent 0%,
-    rgba(214, 255, 60, 0.18) 50%,
+    rgba(196, 123, 255, 0.18) 50%,
     transparent 100%
   );
   background-size: 200% 100%;
@@ -220,5 +250,52 @@
   to { transform: rotate(360deg); }
 }
 .spin-slow {
-  animation: spin-slow 20s linear infinite;
+  animation: spin-slow 28s linear infinite;
+}
+.spin-rev-slow {
+  animation: spin-slow 36s linear infinite reverse;
+}
+
+/* Floating bobbing motion + a soft ground shadow handled in JSX */
+@keyframes floaty {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  50%      { transform: translateY(-10px) rotate(0.6deg); }
+}
+
+/* Centerpiece: orbit ring trace */
+@keyframes orbit-trace {
+  to { stroke-dashoffset: -800; }
+}
+.orbit-trace {
+  stroke-dasharray: 4 9;
+  animation: orbit-trace 22s linear infinite;
+}
+
+/* Aurora — used as the signature backdrop layer */
+@keyframes aurora-shift {
+  0%, 100% {
+    transform: translate3d(0%, 0%, 0) scale(1);
+    filter: hue-rotate(0deg);
+  }
+  33% {
+    transform: translate3d(2%, -2%, 0) scale(1.05);
+    filter: hue-rotate(-12deg);
+  }
+  66% {
+    transform: translate3d(-2%, 2%, 0) scale(1.02);
+    filter: hue-rotate(8deg);
+  }
+}
+.aurora {
+  animation: aurora-shift 18s ease-in-out infinite;
+}
+
+/* Spark: tiny particle that drifts upward and fades */
+@keyframes spark-up {
+  0%   { transform: translateY(0) scale(0.6); opacity: 0; }
+  20%  { opacity: 1; }
+  100% { transform: translateY(-90px) scale(1); opacity: 0; }
+}
+.spark {
+  animation: spark-up 4.5s linear infinite;
 }
