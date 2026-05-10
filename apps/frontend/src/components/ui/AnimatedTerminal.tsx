@@ -5,7 +5,7 @@ type Line = { kind: "cmd" | "out" | "ok" | "warn" | "info"; text: string };
 
 export function AnimatedTerminal({
   lines,
-  prompt = "~/blackbox $",
+  prompt = "~/witsmith $",
   className,
   loop = true,
 }: {
@@ -58,8 +58,7 @@ export function AnimatedTerminal({
   return (
     <div
       className={
-        "relative overflow-hidden rounded-2xl border border-white/10 bg-[#08080d] " +
-        "shadow-[0_30px_80px_-30px_rgba(0,0,0,0.9)] " +
+        "elev-1 relative overflow-hidden rounded-2xl border border-[color:var(--color-border)] bg-[#0c0814] " +
         (className ?? "")
       }
     >
@@ -67,7 +66,7 @@ export function AnimatedTerminal({
         <span className="h-2.5 w-2.5 rounded-full bg-[#ff5f57]" />
         <span className="h-2.5 w-2.5 rounded-full bg-[#febc2e]" />
         <span className="h-2.5 w-2.5 rounded-full bg-[#28c840]" />
-        <span className="ml-3 font-mono text-[11px] text-white/40">blackbox — bash</span>
+        <span className="ml-3 font-mono text-[11px] text-white/40">witsmith — bash</span>
       </div>
       <div className="scanlines min-h-[260px] px-5 py-4 font-mono text-[12.5px] leading-[1.7]">
         {shown.map((l, i) => (

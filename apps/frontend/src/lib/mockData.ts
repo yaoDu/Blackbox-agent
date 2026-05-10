@@ -859,7 +859,7 @@ export const assumptionShifts: AssumptionShift[] = [
 
 export const cliCommands = [
   {
-    cmd: "blackbox start \"Fix OAuth redirect bug\"",
+    cmd: "witsmith start \"Fix OAuth redirect bug\"",
     desc: "Start a recording. Captures base commit, branch, and a snapshot of the working tree.",
     output: [
       "✓ Snapshot saved at a3f12c9",
@@ -868,7 +868,16 @@ export const cliCommands = [
     ],
   },
   {
-    cmd: "blackbox finish",
+    cmd: "witsmith run \"pnpm test:auth\"",
+    desc: "Gate a command through AGENT_WIT.yaml. Records allow / ask / deny + executes if cleared.",
+    output: [
+      "✓ matched rule: allow → \"npm test\"",
+      "✓ executed in 4.2s, exit 0",
+      "  → appended to .witsmith/log.jsonl",
+    ],
+  },
+  {
+    cmd: "witsmith finish",
     desc: "End the recording. Stores the diff, commands run, and triggers memory generation.",
     output: [
       "✓ Captured 24/-9 across 4 files",
@@ -879,7 +888,7 @@ export const cliCommands = [
     ],
   },
   {
-    cmd: "blackbox context \"add comment avatars\"",
+    cmd: "witsmith context \"add comment avatars\"",
     desc: "Retrieve relevant non-stale memory cards for a new task before you start.",
     output: [
       "Retrieved 2 cards for \"add comment avatars\":",
@@ -889,7 +898,7 @@ export const cliCommands = [
     ],
   },
   {
-    cmd: "blackbox stale-check",
+    cmd: "witsmith stale-check",
     desc: "Re-hashes source files and marks any memory whose stale_if_changed file moved.",
     output: [
       "Checked 7 cards.",
@@ -897,10 +906,132 @@ export const cliCommands = [
       "  • all others → fresh",
     ],
   },
+];
+
+/* --------------------------------- Safety / Contract --------------------------------- */
+
+export type ContractDecision = "allow" | "ask" | "deny";
+
+export type ContractRule = {
+  decision: ContractDecision;
+  pattern: string;
+  reason?: string;
+};
+
+export type SafetyEvent = {
+  id: string;
+  ts: string;
+  command: string;
+  cwd: string;
+  decision: ContractDecision;
+  matched_rule: string;
+  reason: string;
+  confidence: number; // 0..1
+  executed: boolean;
+  exit_code?: number;
+  source: "user" | "agent";
+};
+
+/** Mirrors the example in the README's Witsmith Contract section. */
+export const contractRules: ContractRule[] = [
+  { decision: "allow", pattern: "npm test",          reason: "Pure read; no side effects on repo." },
+  { decision: "allow", pattern: "pnpm test*",        reason: "Test runner; deterministic output." },
+  { decision: "allow", pattern: "git status",        reason: "Read-only repo introspection." },
+  { decision: "ask",   pattern: "*prisma migrate*",  reason: "Schema mutation — confirm before running." },
+  { decision: "ask",   pattern: "rm -rf *",          reason: "Destructive; require operator confirmation." },
+  { decision: "deny",  pattern: "git push --force*", reason: "Rewrites remote history." },
+  { decision: "deny",  pattern: "DROP TABLE*",       reason: "Irreversible data loss." },
+  { decision: "deny",  pattern: "curl * | sh",       reason: "Untrusted remote execution." },
+];
+
+export const safetyEvents: SafetyEvent[] = [
   {
-    cmd: "blackbox dashboard",
-    desc: "Open the local web UI to replay sessions, browse memories, and review root causes.",
-    output: ["▶ open http://localhost:5173"],
+    id: "act_8401",
+    ts: "2026-05-09T20:48:32Z",
+    command: "pnpm test pay-webhook",
+    cwd: "monorepo/api",
+    decision: "allow",
+    matched_rule: "pnpm test*",
+    reason: "Test runner; safe.",
+    confidence: 0.97,
+    executed: true,
+    exit_code: 0,
+    source: "agent",
+  },
+  {
+    id: "act_8402",
+    ts: "2026-05-09T20:51:11Z",
+    command: "pnpm prisma migrate deploy",
+    cwd: "monorepo/api",
+    decision: "ask",
+    matched_rule: "*prisma migrate*",
+    reason: "Schema mutation — operator must confirm.",
+    confidence: 0.84,
+    executed: false,
+    source: "agent",
+  },
+  {
+    id: "act_8403",
+    ts: "2026-05-09T20:53:02Z",
+    command: "git push --force origin main",
+    cwd: "monorepo/api",
+    decision: "deny",
+    matched_rule: "git push --force*",
+    reason: "Force-push to main rewrites shared history.",
+    confidence: 0.99,
+    executed: false,
+    source: "agent",
+  },
+  {
+    id: "act_8404",
+    ts: "2026-05-09T20:54:19Z",
+    command: "npm test",
+    cwd: "monorepo/web",
+    decision: "allow",
+    matched_rule: "npm test",
+    reason: "Pure read; no side effects.",
+    confidence: 0.99,
+    executed: true,
+    exit_code: 0,
+    source: "user",
+  },
+  {
+    id: "act_8405",
+    ts: "2026-05-09T20:55:48Z",
+    command: "rm -rf node_modules",
+    cwd: "monorepo/web",
+    decision: "ask",
+    matched_rule: "rm -rf *",
+    reason: "Destructive recursive delete — confirm scope.",
+    confidence: 0.78,
+    executed: true,
+    exit_code: 0,
+    source: "user",
+  },
+  {
+    id: "act_8406",
+    ts: "2026-05-09T20:57:11Z",
+    command: "psql -c 'DROP TABLE users;'",
+    cwd: "monorepo/api",
+    decision: "deny",
+    matched_rule: "DROP TABLE*",
+    reason: "Irreversible data loss.",
+    confidence: 0.99,
+    executed: false,
+    source: "agent",
+  },
+  {
+    id: "act_8407",
+    ts: "2026-05-09T20:58:33Z",
+    command: "git status",
+    cwd: "monorepo/web",
+    decision: "allow",
+    matched_rule: "git status",
+    reason: "Read-only.",
+    confidence: 0.99,
+    executed: true,
+    exit_code: 0,
+    source: "agent",
   },
 ];
 

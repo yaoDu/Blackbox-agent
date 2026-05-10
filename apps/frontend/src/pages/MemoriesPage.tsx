@@ -139,7 +139,7 @@ export function MemoriesPage() {
             <div>
               <div className="flex items-center gap-2 text-[10.5px] font-medium uppercase tracking-[0.18em] text-white/45">
                 <Sparkles className="h-3 w-3 text-[color:var(--color-acid)]" />
-                live retrieval — `blackbox context`
+                live retrieval — `witsmith context`
               </div>
               <h3 className="mt-1 font-serif text-[20px] text-white">
                 What does my next agent need to know?
@@ -157,7 +157,7 @@ export function MemoriesPage() {
               <input
                 value={taskQuery}
                 onChange={(e) => setTaskQuery(e.target.value)}
-                placeholder='blackbox context "fix oauth token expiry"'
+                placeholder='witsmith context "fix oauth token expiry"'
                 className="h-11 w-full rounded-xl border border-white/10 bg-[color:var(--color-bg-soft)] pl-7 pr-3 font-mono text-[13px] text-white placeholder-white/35 outline-none focus:border-[color:var(--color-acid)]/50"
               />
             </div>
@@ -212,13 +212,13 @@ export function MemoriesPage() {
                 onClick={() => setType(t.id)}
                 className={cn(
                   "relative inline-flex items-center gap-1.5 rounded-full px-3 py-1.5 text-[12.5px] font-medium transition-colors",
-                  type === t.id ? "text-black" : "text-white/65 hover:text-white"
+                  type === t.id ? "text-white" : "text-white/65 hover:text-white"
                 )}
               >
                 {type === t.id && (
                   <motion.span
                     layoutId="memory-pill"
-                    className="absolute inset-0 rounded-full bg-[color:var(--color-acid)]"
+                    className="absolute inset-0 rounded-full bg-gradient-to-b from-[#c47bff] to-[#7e14ff]"
                     transition={{ type: "spring", stiffness: 320, damping: 30 }}
                   />
                 )}
@@ -263,7 +263,7 @@ export function MemoriesPage() {
             Memory cards are derived from {sessions.length} sessions across the demo dataset.
           </span>
           <span className="font-mono">
-            stale_if_changed → re-hashed every `blackbox stale-check`
+            stale_if_changed → re-hashed every `witsmith stale-check`
           </span>
         </div>
       </div>
