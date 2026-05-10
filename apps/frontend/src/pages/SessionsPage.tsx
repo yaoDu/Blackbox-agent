@@ -81,9 +81,9 @@ export function SessionsPage() {
           <div className="flex items-center gap-2">
             <Link
               to="/cli"
-              className="inline-flex h-10 items-center gap-2 rounded-full border border-white/10 bg-white/[0.03] px-4 font-mono text-[12.5px] text-white/80 hover:border-white/20"
+              className="inline-flex h-10 items-center gap-2 rounded-full border border-white/10 bg-white/[0.03] px-4 font-mono text-[12.5px] text-white/80 hover:border-[color:var(--color-violet-glow)]/40"
             >
-              <span className="text-[color:var(--color-acid)]">$</span> blackbox start
+              <span className="text-[color:var(--color-violet-glow)]">$</span> witsmith start
             </Link>
           </div>
         </header>
@@ -151,13 +151,13 @@ export function SessionsPage() {
                 onClick={() => setStatus(s.id)}
                 className={cn(
                   "relative rounded-full px-3 py-1.5 text-[12.5px] font-medium transition-colors",
-                  status === s.id ? "text-black" : "text-white/65 hover:text-white"
+                  status === s.id ? "text-white" : "text-white/65 hover:text-white"
                 )}
               >
                 {status === s.id && (
                   <motion.span
                     layoutId="status-pill"
-                    className="absolute inset-0 rounded-full bg-[color:var(--color-acid)]"
+                    className="absolute inset-0 rounded-full bg-gradient-to-b from-[#c47bff] to-[#7e14ff]"
                     transition={{ type: "spring", stiffness: 320, damping: 30 }}
                   />
                 )}

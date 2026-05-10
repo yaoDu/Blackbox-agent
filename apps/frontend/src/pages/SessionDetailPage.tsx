@@ -190,13 +190,13 @@ export function SessionDetailPage() {
               onClick={() => setTab(t.id)}
               className={cn(
                 "relative inline-flex items-center gap-1.5 whitespace-nowrap rounded-full px-3.5 py-1.5 text-[12.5px] font-medium transition-colors",
-                tab === t.id ? "text-black" : "text-white/65 hover:text-white"
+                tab === t.id ? "text-white" : "text-white/65 hover:text-white"
               )}
             >
               {tab === t.id && (
                 <motion.span
                   layoutId="session-tab"
-                  className="absolute inset-0 rounded-full bg-[color:var(--color-acid)]"
+                  className="absolute inset-0 rounded-full bg-gradient-to-b from-[#c47bff] to-[#7e14ff]"
                   transition={{ type: "spring", stiffness: 320, damping: 30 }}
                 />
               )}

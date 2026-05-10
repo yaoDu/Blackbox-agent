@@ -6,12 +6,14 @@ import { Logo } from "./Logo";
 function useCrumbs() {
   const { pathname } = useLocation();
   const parts = pathname.split("/").filter(Boolean);
-  const crumbs: { label: string; to: string }[] = [{ label: "blackbox", to: "/" }];
+  const crumbs: { label: string; to: string }[] = [{ label: "witsmith", to: "/" }];
   let path = "";
   for (const p of parts) {
     path += `/${p}`;
     const label = p.startsWith("session_")
       ? p.replace("session_", "session ")
+      : p === "safety"
+      ? "Contract"
       : p.charAt(0).toUpperCase() + p.slice(1);
     crumbs.push({ label, to: path });
   }
@@ -65,7 +67,7 @@ export function Topbar({ onMenuClick }: { onMenuClick: () => void }) {
         >
           <BookOpen className="h-3.5 w-3.5" /> docs
         </a>
-        <Button size="sm" iconLeft={<span className="h-1.5 w-1.5 rounded-full bg-black/40" />}>
+        <Button size="sm" iconLeft={<span className="h-1.5 w-1.5 rounded-full bg-white/70" />}>
           Start session
         </Button>
       </div>
